@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: semanticbits
@@ -16,24 +17,27 @@
 <body>
 <div align="center">
             <h1>Appointments List</h1>
+    <form action="fixAppointment" method="post">
             <table border="1">
-     
-                <th>Doctor Name</th>
-               
-                <th>Doctor</th>
+                <th></th>
+                <th>Patient Name</th>
+                <th>Date</th>
+                <th>Time</th>
                 <c:forEach var="appointment" items="${appointments}">
                     <tr>
-                        <td>${appointment.doctor.firstName} ${appointment.doctor.lastName}</td>
-                        <td>${appointment.doctor.type}</td>
-                        <td>${appointment.date}</td>
-                        <td>${appointment.time}</td>
+                        <%--<td><input type="checkbox" value="${patient.appointment.id}" name="patients" /></td>--%>
+                        <td>${appointment.patient.firstName} ${appointment.patient.lastname}</td>
+                        <td>${appointment.patient.appointment.date}</td>
+                        <td>${appointment.patient.appointment.time}</td>
                         <td>
-                        <a href="fixAppointment?id=${id}">Fix Appointments</a>
-                          <a href="deleteAppointment?id=${doctor.id}">Delete Appointment</a>
+                            <input type="hidden" name="doctorId" value="${doctorId}" />
+                            <input type="submit" value="Fix Appointment">
+                          <a href="deleteAppointment?id=">Delete Appointment</a>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
+    </form>
         </div>
 </body>
 </html>

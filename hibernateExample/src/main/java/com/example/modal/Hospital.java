@@ -17,7 +17,7 @@ public class Hospital implements Serializable {
     @Column(name = "city_name")
     private String cityName;
 
-    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<Doctor> doctors;
 
     public int getId() {

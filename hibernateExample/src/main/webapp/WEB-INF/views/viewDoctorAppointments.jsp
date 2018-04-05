@@ -15,22 +15,23 @@
 </head>
 <body>
 <div align="center">
-            <h1>Fixed Appointments List</h1>
+            <h1>My Patients List</h1>
             <table border="1">
                 <th>Doctor Name</th>
+                <th>Patient Name</th>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Patient Name</th>
-                <c:forEach var="patient" items="${patients}">
+                <c:forEach var="appointment" items="${appointments}">
                     <tr>
-                        <td>${patient.appointment.doctor.firstName} ${patient.appointment.doctor.lastName}</td>
-                        <td>${patient.appointment.date}</td>
-                        <td>${patient.appointment.time}</td>
-                        <td>${patient.firstName} ${patient.lastName}</td>
-                        <%--<td>
-                        <a href="viewAppointments?id=${doctor.id}">View Appointments</a>
-                          <a href="deleteAppointment?id=${doctor.id}">Delete Appointment</a>
-                        </td>--%>
+                        <td>${appointment.doctor.firstName} ${appointment.doctor.lastName}</td>
+                        <td>${appointment.patient.firstName} ${appointment.patient.lastname}</td>
+                        <td>${appointment.date}</td>
+                        <td>${appointment.time} </td>
+                       <td>
+                         <input type="hidden" name="doctorId" value="${doctorId}" />
+                        <%--<input type="submit" value="Fix Appointment">--%>
+                          <a href="deleteAppointment?id=${doctorId}">Delete Appointment</a>
+                         </td>
                     </tr>
                 </c:forEach>
             </table>

@@ -20,9 +20,13 @@ public class HospitalDAOimpl implements HospitalDAO{
 
     @Override
     public void deleteHospital(Integer hospital_id) {
+        System.out.println("Delete Hosital-1----->"+hospital_id);
         Hospital hospital = (Hospital) sessionFactory.getCurrentSession().load(Hospital.class, hospital_id);
         if(null != hospital){
+            hospital.setId(hospital_id);
             this.sessionFactory.getCurrentSession().delete(hospital);
+            System.out.println("Delete Hosital-2----->"+hospital_id);
+
         }
     }
 

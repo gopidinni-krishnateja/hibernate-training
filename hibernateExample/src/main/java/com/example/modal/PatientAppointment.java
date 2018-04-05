@@ -3,8 +3,10 @@ package com.example.modal;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -18,8 +20,11 @@ public class PatientAppointment implements Serializable {
     private int Id;
 
 
-    @Column(name = "date")
-    public String date;
+    @Column
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate date;
+    /*@Column(name="date")
+    public  String date;*/
 
     @Column(name = "time")
     public String time;
@@ -36,6 +41,35 @@ public class PatientAppointment implements Serializable {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+ /*   public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }*/
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    @OneToOne (mappedBy="appointment")
+    private Patient patient;
+
+
     public int getId() {
         return Id;
     }
@@ -44,13 +78,6 @@ public class PatientAppointment implements Serializable {
         Id = id;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     public String getTime() {
         return time;

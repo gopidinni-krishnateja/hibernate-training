@@ -20,9 +20,12 @@ public class DoctorDAOimpl implements DoctorDAO {
 
     @Override
     public void deleteDoctor(Integer doctor_id) {
+        System.out.println("Delete Doctor----->"+doctor_id);
         Doctor doctor = (Doctor) sessionFactory.getCurrentSession().load(Doctor.class, doctor_id);
         if(null != doctor){
-            this.sessionFactory.getCurrentSession().delete(doctor_id);
+            doctor.setId(doctor_id);
+            this.sessionFactory.getCurrentSession().delete(doctor);
+            System.out.println("Delete Doctor----->"+doctor_id);
         }
     }
 

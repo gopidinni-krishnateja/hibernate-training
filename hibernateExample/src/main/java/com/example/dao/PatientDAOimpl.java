@@ -37,6 +37,7 @@ public class PatientDAOimpl implements  PatientDAO{
     @Override
     public List<Patient> getAllPatients() {
         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(Patient.class);
+
         return criteria.list();
     }
 

@@ -2,10 +2,12 @@ package com.example.controller;
 
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
+import com.example.modal.Patient;
 import com.example.modal.PatientAppointment;
 import com.example.service.AppointmentService;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
+import com.example.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,7 +28,7 @@ public class DoctorController {
     int hospitalId;
 
     @Autowired
-    private AppointmentService appointmentService;
+    private PatientService patientService;
     @RequestMapping(value = "/newDoctor", method = RequestMethod.GET)
     public ModelAndView newDoctor(ModelAndView model,HttpServletRequest request) {
         hospitalId = Integer.parseInt(request.getParameter("id"));
@@ -42,22 +44,27 @@ public class DoctorController {
         } else {
               doctorService.updateDoctor(doctor);
         }
-        List<Doctor> doctors = doctorService.getAllDoctors();
-        List<PatientAppointment> appointments= appointmentService.getAllPatientAppointments();
-        model.addObject("doctors",doctors);
-
-        model.addObject("appointments",appointments);
+        List<Doctor> doctors=doctorService.getAllDoctors();
+          model.addObject("doctors",new Doctor());
+          model.addObject("doctors",doctors);
         model.setViewName("viewDoctors");
         return model;
     }
     @RequestMapping(value ="/viewDoctors",method = RequestMethod.GET)
     public  ModelAndView viewDoctors(ModelAndView model){
-        List<Doctor> doctors = doctorService.getAllDoctors();
-        List<PatientAppointment> appointments= appointmentService.getAllPatientAppointments();
+        List<Doctor> doctors=doctorService.getAllDoctors();
+
         model.addObject("doctors",doctors);
-        model.addObject("appointments",appointments);
         model.setViewName("viewDoctors");
         return model;
+    }
+    @RequestMapping(value = "/deleteDoctor",method = RequestMethod.GET)
+    public ModelAndView deleteDoctor(ModelAndView model,HttpServletRequest request){
+        int doctorId=Integer.parseInt(request.getParameter("id"));
+        System.out.println("DoctorId---->"+doctorId);
+        doctorService.deleteDoctor(doctorId);
+        List<Patient> patients = patientService.getAllPatients();
+        return new ModelAndView("index","totalData",patients);
     }
 
 }

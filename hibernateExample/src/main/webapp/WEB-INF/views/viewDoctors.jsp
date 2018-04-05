@@ -19,26 +19,23 @@
 <div align="center">
             <h1>Doctors List</h1>
             <table border="1">
-     
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Spelization</th>
                 <th>Hospital Name</th>
-                <th>Availability</th>
+                <th>Appointments Availability</th>
                 <c:forEach var="doctor" items="${doctors}">
                     <tr>
                         <td>${doctor.firstName}</td>
                         <td>${doctor.lastName}</td>
                         <td>${doctor.type}</td>
                         <td>${doctor.hospital.name}</td>
-                        <td> <form:select path = "appointment.id" items = "${doctor.appointments}" itemLabel="date" itemValue="id">
-                        </form:select>
-                        </td>
-                        <td>
-                        <input type="button"onclick= "location.href='saveDoctor?doctorId=${doctor.id}?appointmentId=${id}'" value="Make Availability" />
-                    </td>
+                        <td><a href="viewMyPatients?id=${doctor.id}">View My Appointments</a></td>
                     </tr>
+
                 </c:forEach>
+
+
             </table>
 
         </div>
