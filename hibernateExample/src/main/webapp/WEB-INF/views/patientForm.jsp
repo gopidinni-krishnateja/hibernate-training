@@ -16,23 +16,23 @@
 <div align="center">
     <form:form action="savePatient" method="post" modelAttribute="patient">
         <table>
+            <form:hidden path="id"/>
             <tr>
                 <td>First Name:</td>
-                <td><input type="text" name="firstName" path="firstName"/></td>
+                <td><form:input type="text" name="firstName" path="firstName"/></td>
             </tr>
             <tr>
                 <td>Last Name:</td>
 
-                <td><input type="text" name="lastname" path="lastname"/></td>
+                <td><form:input type="text" name="lastname" path="lastname"/></td>
             </tr>
             <tr>
                 <td>Age:</td>
-                <td><input type="number" name="age" path="age"/></td>
+                <td><form:input type="number" name="age" path="age"/></td>
             </tr>
             <tr>
                 <td>Gender</td>
-                <td><input type="radio" name="gender" path="gender" value="male" checked> Male
-                    <input type="radio" name="gender" path="gender" value="female"> Female
+                <td><form:input type="text" name="gender" path="gender"/></td>
                 </td>
             </tr>
             <tr>

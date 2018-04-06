@@ -24,19 +24,6 @@ public class AppointmentController {
     DoctorService doctorService;
     @Autowired
     PatientService patientService;
-    @RequestMapping(value = "/createAppointment",method = RequestMethod.GET)
-    public ModelAndView createAppointment(ModelAndView model,HttpServletRequest request){
-        return new ModelAndView("index");
-    }
-/*    @RequestMapping(value = "fixAppointment", method = RequestMethod.POST)
-    public ModelAndView saveDoctor(@ModelAttribute PatientAppointment patientAppointment,HttpServletRequest request){
-        doctorId=Integer.parseInt(request.getParameter("doctorId"));
-        patientAppointment.setDoctor(doctorService.getDoctor(doctorId));
-        String [] items = request.getParameterValues("patients");
-        List<Patient> patients= patientService.getAllPatients();
-
-        return new ModelAndView("viewDoctorAppointments","patients",patients);
-    }*/
     @RequestMapping(value = "/viewMyPatients",method = RequestMethod.GET)
     public ModelAndView saveDoctorAppointment(HttpServletRequest request,ModelAndView modal){
         List<Patient> patients = patientService.getAllPatients();

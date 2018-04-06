@@ -3,8 +3,6 @@ package com.example.controller;
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
 import com.example.modal.Patient;
-import com.example.modal.PatientAppointment;
-import com.example.service.AppointmentService;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
 import com.example.service.PatientService;
@@ -31,40 +29,60 @@ public class DoctorController {
     private PatientService patientService;
     @RequestMapping(value = "/newDoctor", method = RequestMethod.GET)
     public ModelAndView newDoctor(ModelAndView model,HttpServletRequest request) {
-        hospitalId = Integer.parseInt(request.getParameter("id"));
-        return new ModelAndView("addDoctor","hospital",hospitalId);
+        model.addObject("doctor",new Doctor());
+        model.setViewName("addDoctor");
+        return model;
     }
 
     @RequestMapping(value ="/saveDoctor",method = RequestMethod.POST)
-    public  ModelAndView addDoctor(@ModelAttribute Doctor doctor,ModelAndView model){
-        Hospital hospital = hospitalService.getHospital(hospitalId);
+    public  ModelAndView addDoctor(@ModelAttribute Doctor doctor,ModelAndView model,HttpServletRequest request){
+        System.out.println("HospitalId--->"+doctor.getHospital().getId());
+        Hospital hospital = hospitalService.getHospital(doctor.getHospital().getId());
         doctor.setHospital(hospital);
           if (doctor.getId() == 0) {
             doctorService.addDoctor(doctor);
         } else {
               doctorService.updateDoctor(doctor);
         }
-        List<Doctor> doctors=doctorService.getAllDoctors();
-          model.addObject("doctors",new Doctor());
-          model.addObject("doctors",doctors);
-        model.setViewName("viewDoctors");
-        return model;
+        List<Hospital> hospitals = hospitalService.getAllHospitals();
+        // System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
+        return new ModelAndView("index","hospitals",hospitals);
     }
-    @RequestMapping(value ="/viewDoctors",method = RequestMethod.GET)
-    public  ModelAndView viewDoctors(ModelAndView model){
+    @RequestMapping(value ="/viewAllDoctors",method = RequestMethod.GET)
+    public  ModelAndView viewAllDoctors(ModelAndView model,HttpServletRequest request){
         List<Doctor> doctors=doctorService.getAllDoctors();
-
+        int hospitalId=Integer.parseInt(request.getParameter("hospitalId"));
+        model.addObject("hospitalId",hospitalId);
         model.addObject("doctors",doctors);
-        model.setViewName("viewDoctors");
+        model.setViewName("viewAllDoctors");
         return model;
     }
+
     @RequestMapping(value = "/deleteDoctor",method = RequestMethod.GET)
     public ModelAndView deleteDoctor(ModelAndView model,HttpServletRequest request){
         int doctorId=Integer.parseInt(request.getParameter("id"));
         System.out.println("DoctorId---->"+doctorId);
         doctorService.deleteDoctor(doctorId);
-        List<Patient> patients = patientService.getAllPatients();
-        return new ModelAndView("index","totalData",patients);
+        List<Hospital> hospitals = hospitalService.getAllHospitals();
+       // System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
+        return new ModelAndView("index","hospitals",hospitals);
+    }
+    @RequestMapping(value = "/viewDoctors", method = RequestMethod.GET)
+    public ModelAndView viewDoctors(ModelAndView model,HttpServletRequest request){
+        int hospitalId=Integer.parseInt(request.getParameter("id"));
+        System.out.println("HospitalId---->"+hospitalId);
+        List<Doctor> doctors=hospitalService.getHospital(hospitalId).getDoctors();
+        return new ModelAndView("viewDoctors","doctors",doctors);
+    }
+    @RequestMapping(value = "editDoctor",method = RequestMethod.GET)
+    public ModelAndView editDoctor(ModelAndView model, HttpServletRequest request){
+        int doctorId=Integer.parseInt(request.getParameter("id"));
+        System.out.println("DoctorId---->"+doctorId);
+        Doctor doctor=doctorService.getDoctor(doctorId);
+        model.addObject("doctor",doctor);
+        model.addObject("doctorId",doctorId);
+        model.setViewName("addDoctor");
+        return model;
     }
 
 }

@@ -17,12 +17,14 @@
 <div align="center">
             <h1>My Patients List</h1>
             <table border="1">
+                <th><a href="deleteDoctor?id=">Delete Doctors</a></th>
                 <th>Doctor Name</th>
                 <th>Patient Name</th>
                 <th>Date</th>
                 <th>Time</th>
                 <c:forEach var="appointment" items="${appointments}">
                     <tr>
+                     <td><input type="checkbox" value="${appointment.doctor.id}" name="appointments" /></td>
                         <td>${appointment.doctor.firstName} ${appointment.doctor.lastName}</td>
                         <td>${appointment.patient.firstName} ${appointment.patient.lastname}</td>
                         <td>${appointment.date}</td>
@@ -30,7 +32,7 @@
                        <td>
                          <input type="hidden" name="doctorId" value="${doctorId}" />
                         <%--<input type="submit" value="Fix Appointment">--%>
-                          <a href="deleteAppointment?id=${doctorId}">Delete Appointment</a>
+                          <a href="editPatient?id=${appointment.patient.id}">Edit Patient</a>
                          </td>
                     </tr>
                 </c:forEach>

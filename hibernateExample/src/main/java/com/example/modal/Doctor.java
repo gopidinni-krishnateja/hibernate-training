@@ -22,7 +22,7 @@ public class Doctor implements Serializable {
     @Column(name = "type")
     public String type;
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL,orphanRemoval = true, fetch=FetchType.EAGER)
     private List<PatientAppointment> appointments;
 
     public Hospital getHospital() {

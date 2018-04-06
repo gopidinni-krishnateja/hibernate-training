@@ -1,5 +1,8 @@
 package com.example.modal;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -16,8 +19,8 @@ public class Hospital implements Serializable {
     private String name;
     @Column(name = "city_name")
     private String cityName;
-
-    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Doctor> doctors;
 
     public int getId() {

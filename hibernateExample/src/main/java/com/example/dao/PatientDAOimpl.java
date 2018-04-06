@@ -17,12 +17,12 @@ public class PatientDAOimpl implements  PatientDAO{
     @Override
     public void addPatient(Patient patient) {
         System.out.println("AppointmentData->  "+patient.getAppointment());
-        sessionFactory.getCurrentSession().save(patient);
+        sessionFactory.getCurrentSession().saveOrUpdate(patient);
     }
 
     @Override
     public void deletePatient(Integer Patient_id) {
-        Patient patient = (Patient) sessionFactory.getCurrentSession().load(Hospital.class, Patient_id);
+        Patient patient = (Patient) sessionFactory.getCurrentSession().load(Patient.class, Patient_id);
         if(null != patient){
             this.sessionFactory.getCurrentSession().delete(patient);
         }

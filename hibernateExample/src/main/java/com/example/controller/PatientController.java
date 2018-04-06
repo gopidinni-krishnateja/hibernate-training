@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.modal.Doctor;
+import com.example.modal.Hospital;
 import com.example.modal.Patient;
 import com.example.modal.PatientAppointment;
 import com.example.service.AppointmentService;
@@ -56,14 +57,41 @@ public class PatientController {
     }
     @RequestMapping(value = "/savePatient", method = RequestMethod.POST)
     public ModelAndView addPatient(@ModelAttribute Patient patient, ModelAndView model,HttpServletRequest request){
-        System.out.println("Patient---> "+patient.getAppointment().getDate());
         patient.getAppointment().setTime(patient.getAppointment().getTime().toString());
+        if (patient.getId() == 0) {
+            patientService.addPatient(patient);
+        } else {
+            patientService.updatePatient(patient);
+        }
         patientService.addPatient(patient);
+        List<Hospital> hospitals = hospitalService.getAllHospitals();
+     //   System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
+        return new ModelAndView("index","hospitals",hospitals);
+    }
+    @RequestMapping(value = "/viewPatients", method = RequestMethod.GET)
+    public ModelAndView viewPatients(ModelAndView model, HttpServletRequest request){
         List<Patient> patients = patientService.getAllPatients();
-        System.out.println("Doctor---> "+patients.get(0).getAppointment().getDoctor().getFirstName());
-
-        return new ModelAndView("index","totalData",patients);
-
+        return new ModelAndView("viewPatients","totalData",patients);
+    }
+    @RequestMapping(value = "editPatient",method = RequestMethod.GET)
+    public ModelAndView editPatient(ModelAndView model,HttpServletRequest request){
+        int patientId=Integer.parseInt(request.getParameter("id"));
+        Patient patient=patientService.getPatient(patientId);
+        model.addObject("patient",patient);
+        model.addObject("patientId",patientId);
+        List<Doctor> doctors=doctorService.getAllDoctors();
+        model.addObject("doctors",doctors);
+        model.setViewName("patientForm");
+        return model;
+    }
+    @RequestMapping(value = "/deletePatient",method = RequestMethod.GET)
+    public ModelAndView deleteDoctor(ModelAndView model,HttpServletRequest request){
+        int patientId=Integer.parseInt(request.getParameter("id"));
+        System.out.println("PatientId---->"+patientId);
+        patientService.deletePatient(patientId);
+        List<Hospital> hospitals = hospitalService.getAllHospitals();
+        //System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
+        return new ModelAndView("index","hospitals",hospitals);
     }
 }
 

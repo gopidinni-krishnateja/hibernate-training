@@ -1,7 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: semanticbits
@@ -17,26 +19,30 @@
 <body>
 <div align="center">
             <h1>Doctors List</h1>
-
+    <form action="saveHospitalDoctors" method="post" >
+        <input type="hidden" value="${hospitalId}" name="hospitalId">
             <table border="1">
-     
+                <th></th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Specialize In</th>
+                <th>Spelization</th>
+                <th>Hospital Name</th>
                 <c:forEach var="doctor" items="${doctors}">
                     <tr>
-
+                <td><input type="checkbox" value="${doctor.id}" name="doctors" />
                         <td>${doctor.firstName}</td>
                         <td>${doctor.lastName}</td>
                         <td>${doctor.type}</td>
-                  
-                        <td><a href="viewMyPatients?id=${doctor.id}">View Doctor Appointments</a>
-                        <td><a href="deleteDoctor?id=${doctor.id}">Delete Doctor</a>
-                            <a href="editDoctor?id=${doctor.id}">Edit Doctor</a>
-                        </td>
+                        <td>${doctor.hospital.name}</td>
                     </tr>
+
                 </c:forEach>
             </table>
+        <h5 align="center">
+            <input type="submit" value="Assign" />
+        </h5>
+    </form>
         </div>
+
 </body>
 </html>
