@@ -6,8 +6,11 @@
 
 <html>
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <title> Patient Form </title>
 </head>
 <body>
@@ -18,40 +21,53 @@
         <table>
             <form:hidden path="id"/>
             <tr>
+                <div class="form-group">
                 <td>First Name:</td>
-                <td><form:input type="text" name="firstName" path="firstName"/></td>
+                <td><form:input class="form-control" type="text" name="firstName" path="firstName"/></td>
+                </div>
             </tr>
             <tr>
+                <div class="form-group">
                 <td>Last Name:</td>
-
-                <td><form:input type="text" name="lastname" path="lastname"/></td>
+                <td><form:input class="form-control" type="text" name="lastname" path="lastname"/></td>
+                </div>
             </tr>
             <tr>
+                <div class="form-group">
                 <td>Age:</td>
-                <td><form:input type="number" name="age" path="age"/></td>
+                <td><form:input class="form-control" type="number" name="age" path="age"/></td>
+                </div>
             </tr>
             <tr>
+                <div class="form-group">
                 <td>Gender</td>
-                <td><form:input type="text" name="gender" path="gender"/></td>
+                <td><form:input class="form-control" type="text" name="gender" path="gender"/></td>
+                </div>
                 </td>
             </tr>
             <tr>
+                <div class="form-group">
                 <td>Date</td>
                 <td>
-                <form:input type="date" name="date" path="appointment.date" data-date="" data-date-format="YYYY-MM-DD" />
+                <form:input type="date" class="form-control" name="date" path="appointment.date" data-date="" data-date-format="YYYY-MM-DD" />
                 </td>
+                </div>
             </tr>
             <tr>
+                <div class="form-group">
                 <td>Time</td>
-                <td><form:input type="time" name="time" path="appointment.time" /></td>
+                <td><form:input type="time" class="form-control" name="time" path="appointment.time" /></td>
+                </div>
             </tr>
             <tr>
-                <td>Select Doctor</td>
+                <div class="form-group">
+                <td>Select Doctor Type</td>
                 <td>
-                    <form:select items="${doctors}"  itemLabel="firstName" itemValue="id" path="appointment.doctor.id"></form:select>
+                    <form:select items="${doctors}"  class="form-control"  itemLabel="type" itemValue="id" path="appointment.doctor.id"></form:select>
                 </td>
+                </div>
             </tr>
-            <td colspan="2" align="center"><input type="submit" value="Save" /></td>
+            <td colspan="2" align="center"><input class="btn btn-primary" type="submit" value="Save" /></td>
 
         </table>
     </form:form>

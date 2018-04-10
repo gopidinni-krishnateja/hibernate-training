@@ -45,10 +45,16 @@ public class HospitalController {
     }
     @RequestMapping(value = "/newHospital", method = RequestMethod.GET)
     public ModelAndView newHospital(ModelAndView model) {
-        List<Doctor> doctors=doctorService.getAllDoctors();
-        model.addObject("hospital",new Hospital());
-        model.addObject("doctors",doctors);
-        model.setViewName("hospital");
+        List<Doctor> doctors=doctorService.getUnAssignedDoctors();
+        if(doctors.size()==0){
+          model.setViewName("noDoctorsFound");
+        } else {
+            // System.out.println("DoctorsList--->"+doctors.get(0).getFirstName());
+            model.addObject("hospital",new Hospital());
+            model.addObject("doctors",doctors);
+            model.setViewName("hospital");
+
+        }
         return model;
     }
     @RequestMapping(value = "/saveHospital", method = RequestMethod.POST)
@@ -113,6 +119,12 @@ public class HospitalController {
             hospitalService.updateHospital(hospital);
         List<Hospital> hospitals = hospitalService.getAllHospitals();
         return new ModelAndView("viewhospitals","hospitals",hospitals);
+    }
+    @RequestMapping(value = "/viewhospitals",method = RequestMethod.GET)
+    public ModelAndView viewHospital(ModelAndView model){
+        List<Hospital> hospitals=hospitalService.getAllHospitals();
+        return new ModelAndView("viewhospitals","hospitals",hospitals);
+
     }
 
 

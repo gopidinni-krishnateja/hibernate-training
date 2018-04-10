@@ -1,6 +1,7 @@
 package com.example.modal;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,12 +14,14 @@ public class Doctor implements Serializable {
     @SequenceGenerator(name="doctor_sequence", sequenceName = "doctor_seq", allocationSize = 1)
     private int Id;
 
+    @NotNull
     @Column(name="first_name")
     private String firstName;
 
+    @NotNull
     @Column(name="last_name")
     private String lastName;
-
+    @NotNull
     @Column(name = "type")
     public String type;
 

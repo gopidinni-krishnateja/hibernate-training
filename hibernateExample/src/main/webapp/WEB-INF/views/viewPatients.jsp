@@ -15,14 +15,15 @@
                 <th>Actions</th>
                 <c:forEach var="totalData" items="${totalData}">
                     <tr>
-                        <td>${totalData.appointment.doctor.hospital.name}</td>
-                        <td>${totalData.appointment.doctor.firstName} ${totalData.appointment.doctor.lastName}</td>
-                        <td>${totalData.firstName} ${totalData.lastname}</td>
-                        <td>${totalData.appointment.date}</td>
-                        <td>${totalData.appointment.time}</td>
+
+                       <td>${totalData.HospitalName}</td>
+                        <td>${totalData.DoctorFirstName} ${totalData.DoctorLastName}</td>
+                        <td>${totalData.PatientFirstName} ${totalData.PatientLastName} </td>
+                        <td>${totalData.date}</td>
+                        <td>${totalData.time}</td>
                         <td><a href="/">Home</a> </td>
-                        <td><a href="editPatient?id=${totalData.id}">Edit Patient</a></td>
-                        <td><a href="deletePatient?id=${totalData.id}">Delete Patient</a></td>
+                        <td><a href="editPatient?id=${totalData.PatientId}">Edit Patient</a></td>
+                        <td><a href="deletePatient?id=${totalData.PatientId}">Delete Patient</a></td>
                     </tr>
                 </c:forEach>
             </table>

@@ -1,6 +1,10 @@
 package com.example.modal;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -10,20 +14,20 @@ public class Patient implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patient_sequence")
     @SequenceGenerator(name = "patient_sequence", sequenceName = "patient_seq", allocationSize = 1)
     private int Id;
-
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
-
+    @NotNull
     @Column(name = "last_name")
     private String lastname;
-
+    @NotNull
     @Column(name = "age")
     private int age;
-
+    @NotNull
     @Column(name = "gender")
     private String gender;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "appointment_id")
     private PatientAppointment appointment;
 

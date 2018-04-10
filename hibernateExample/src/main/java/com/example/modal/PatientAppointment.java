@@ -19,15 +19,19 @@ public class PatientAppointment implements Serializable {
     @SequenceGenerator(name="appointment_sequence", sequenceName = "appointment_seq", allocationSize = 1)
     private int Id;
 
-
+    @NotNull
     @Column
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
     /*@Column(name="date")
     public  String date;*/
-
+    @NotNull
     @Column(name = "time")
     public String time;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
     public Doctor getDoctor() {
         return doctor;
@@ -37,9 +41,6 @@ public class PatientAppointment implements Serializable {
         this.doctor = doctor;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
 
  /*   public String getDate() {
         return date;
@@ -66,7 +67,7 @@ public class PatientAppointment implements Serializable {
         this.patient = patient;
     }
 
-    @OneToOne (mappedBy="appointment")
+    @OneToOne (mappedBy="appointment",cascade = {})
     private Patient patient;
 
 

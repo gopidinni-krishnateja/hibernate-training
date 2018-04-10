@@ -50,11 +50,16 @@ public class DoctorController {
     }
     @RequestMapping(value ="/viewAllDoctors",method = RequestMethod.GET)
     public  ModelAndView viewAllDoctors(ModelAndView model,HttpServletRequest request){
-        List<Doctor> doctors=doctorService.getAllDoctors();
+        List<Doctor> doctors=doctorService.getUnAssignedDoctors();
         int hospitalId=Integer.parseInt(request.getParameter("hospitalId"));
-        model.addObject("hospitalId",hospitalId);
-        model.addObject("doctors",doctors);
-        model.setViewName("viewAllDoctors");
+        if(doctors.size()==0){
+            model.setViewName("noDoctorsFound");
+        } else {
+            model.addObject("hospitalId",hospitalId);
+            model.addObject("doctors",doctors);
+            model.setViewName("viewAllDoctors");
+        }
+
         return model;
     }
 
@@ -70,19 +75,33 @@ public class DoctorController {
     @RequestMapping(value = "/viewDoctors", method = RequestMethod.GET)
     public ModelAndView viewDoctors(ModelAndView model,HttpServletRequest request){
         int hospitalId=Integer.parseInt(request.getParameter("id"));
-        System.out.println("HospitalId---->"+hospitalId);
+        model.addObject("hospitalId",hospitalId);
         List<Doctor> doctors=hospitalService.getHospital(hospitalId).getDoctors();
-        return new ModelAndView("viewDoctors","doctors",doctors);
+        model.addObject("doctors",doctors);
+        model.setViewName("viewDoctors");
+        return model;
     }
     @RequestMapping(value = "editDoctor",method = RequestMethod.GET)
     public ModelAndView editDoctor(ModelAndView model, HttpServletRequest request){
         int doctorId=Integer.parseInt(request.getParameter("id"));
-        System.out.println("DoctorId---->"+doctorId);
         Doctor doctor=doctorService.getDoctor(doctorId);
         model.addObject("doctor",doctor);
         model.addObject("doctorId",doctorId);
         model.setViewName("addDoctor");
         return model;
+    }
+    @RequestMapping(value="searchDoctor",method = RequestMethod.GET)
+    public ModelAndView searchDoctor(ModelAndView model,HttpServletRequest request){
+        String firstName=request.getParameter("firstName");
+        Integer hospitalId=Integer.parseInt(request.getParameter("hospitalId"));
+        Hospital hospital=hospitalService.getHospital(hospitalId);
+        System.out.println("---->"+hospitalId);
+        List<Doctor> doctors=doctorService.searchDoctor(firstName,hospital);
+        model.addObject("hospitalId",hospitalId);
+        model.addObject("doctors",doctors);
+        model.setViewName("viewDoctors");
+        return model;
+
     }
 
 }

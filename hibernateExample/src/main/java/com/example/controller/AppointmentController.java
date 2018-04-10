@@ -29,9 +29,15 @@ public class AppointmentController {
         List<Patient> patients = patientService.getAllPatients();
         int doctorId=Integer.parseInt(request.getParameter("id"));
         List<PatientAppointment> appointments=doctorService.getDoctor(doctorId).getAppointments();
-        modal.addObject("appointments",appointments);
-        modal.addObject("doctorId",doctorId);
-        modal.setViewName("viewDoctorAppointments");
+        if(appointments.size()==0){
+            modal.setViewName("noAppointmentsFound");
+
+        } else {
+            modal.addObject("appointments",appointments);
+            modal.addObject("doctorId",doctorId);
+            modal.setViewName("viewDoctorAppointments");
+        }
+
         return  modal;
     }
    /* @RequestMapping(value = "/deleteAppointment",method = RequestMethod.GET)

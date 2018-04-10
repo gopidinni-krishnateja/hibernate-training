@@ -4,6 +4,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,8 +16,10 @@ public class Hospital implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hospital_sequence")
     @SequenceGenerator(name = "hospital_sequence",sequenceName = "hospital_seq",allocationSize = 1)
     private int Id;
+    @NotNull
     @Column(name = "name")
     private String name;
+    @NotNull
     @Column(name = "city_name")
     private String cityName;
     @LazyCollection(LazyCollectionOption.FALSE)

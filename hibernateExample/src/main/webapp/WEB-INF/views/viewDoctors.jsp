@@ -15,9 +15,16 @@
     <title>Doctors</title>
 </head>
 <body>
+
 <div align="center">
             <h1>Doctors List</h1>
-
+    <div align="center">
+        <form action="searchDoctor">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="firstName">
+            <input type="hidden" value="${hospitalId}" name="hospitalId">
+            <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
+        </form>
+    </div>
             <table border="1">
      
                 <th>First Name</th>
@@ -30,9 +37,11 @@
                         <td>${doctor.lastName}</td>
                         <td>${doctor.type}</td>
                   
-                        <td><a href="viewMyPatients?id=${doctor.id}">View Doctor Appointments</a>
+
                         <td><a href="deleteDoctor?id=${doctor.id}">Delete Doctor</a>
                             <a href="editDoctor?id=${doctor.id}">Edit Doctor</a>
+                            <a href="viewMyPatients?id=${doctor.id}">View My Appointments</a>
+                            <a href="/">Home</a>
                         </td>
                     </tr>
                 </c:forEach>

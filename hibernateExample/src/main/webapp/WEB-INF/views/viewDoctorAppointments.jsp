@@ -31,7 +31,7 @@
                         <td>${appointment.time} </td>
                        <td>
                          <input type="hidden" name="doctorId" value="${doctorId}" />
-                        <%--<input type="submit" value="Fix Appointment">--%>
+                            <a href="/">Home</a>
                           <a href="editPatient?id=${appointment.patient.id}">Edit Patient</a>
                          </td>
                     </tr>

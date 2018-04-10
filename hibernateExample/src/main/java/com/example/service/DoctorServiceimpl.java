@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dao.DoctorDAO;
 import com.example.modal.Doctor;
+import com.example.modal.Hospital;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +45,16 @@ public class DoctorServiceimpl implements DoctorService {
     @Override
     public Doctor getDoctor(Integer Doctor_id) {
         return doctorDAO.getDoctor(Doctor_id);
+    }
+
+    @Override
+    public List<Doctor> getUnAssignedDoctors() {
+        return doctorDAO.getUnAssigned();
+    }
+
+    @Override
+    public List<Doctor> searchDoctor(String firstName,Hospital hospital) {
+        System.out.println("DAO--->"+firstName+"----->"+hospital.getName());
+        return doctorDAO.searchDoctor(firstName, hospital);
     }
 }

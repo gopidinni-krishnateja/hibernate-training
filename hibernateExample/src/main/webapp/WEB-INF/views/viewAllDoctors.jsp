@@ -34,6 +34,7 @@
                         <td>${doctor.lastName}</td>
                         <td>${doctor.type}</td>
                         <td>${doctor.hospital.name}</td>
+                        <td><a href="/">Home</a></td>
                     </tr>
 
                 </c:forEach>
