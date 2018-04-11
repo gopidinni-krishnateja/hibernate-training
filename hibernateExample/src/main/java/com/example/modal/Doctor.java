@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
+@NamedNativeQueries({@NamedNativeQuery(name="findAllDoctors",query ="SELECT * from doctor WHERE hospital_id IS NOT NULL ",resultClass = Doctor.class)})
 @Entity
 @Table(name = "doctor")
 public class Doctor implements Serializable {

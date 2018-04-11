@@ -21,8 +21,9 @@
     <div align="center">
         <form action="searchDoctor">
             <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="firstName">
-            <input type="hidden" value="${hospitalId}" name="hospitalId">
             <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
+            <div class="row"> <a href="viewDoctors?id=${hospitalId}">Clear Search</a></div>
+            <input type="hidden" value="${hospitalId}" name="hospitalId">
         </form>
     </div>
             <table border="1">

@@ -52,9 +52,11 @@ public class DoctorController {
     public  ModelAndView viewAllDoctors(ModelAndView model,HttpServletRequest request){
         List<Doctor> doctors=doctorService.getUnAssignedDoctors();
         int hospitalId=Integer.parseInt(request.getParameter("hospitalId"));
+        Hospital hospital=hospitalService.getHospital(hospitalId);
         if(doctors.size()==0){
             model.setViewName("noDoctorsFound");
         } else {
+            model.addObject("hospitalName",hospital.getName());
             model.addObject("hospitalId",hospitalId);
             model.addObject("doctors",doctors);
             model.setViewName("viewAllDoctors");

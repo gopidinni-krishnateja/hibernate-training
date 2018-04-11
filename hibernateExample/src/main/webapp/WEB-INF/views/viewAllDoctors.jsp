@@ -22,18 +22,17 @@
     <form action="saveHospitalDoctors" method="post" >
         <input type="hidden" value="${hospitalId}" name="hospitalId">
             <table border="1">
-                <th></th>
+                <th>${hospitalName}</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Spelization</th>
-                <th>Hospital Name</th>
                 <c:forEach var="doctor" items="${doctors}">
                     <tr>
                 <td><input type="checkbox" value="${doctor.id}" name="doctors" />
                         <td>${doctor.firstName}</td>
                         <td>${doctor.lastName}</td>
                         <td>${doctor.type}</td>
-                        <td>${doctor.hospital.name}</td>
+                   
                         <td><a href="/">Home</a></td>
                     </tr>
 

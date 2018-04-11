@@ -5,6 +5,7 @@ import com.example.modal.Hospital;
 import com.example.modal.Patient;
 import com.example.modal.PatientAppointment;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +56,8 @@ public class DoctorDAOimpl implements DoctorDAO {
 
     @Override
     public List<Doctor> getAll() {
-        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(Doctor.class);
-        criteria.setMaxResults(10);
-        return criteria.list();
+        Query query=sessionFactory.getCurrentSession().getNamedQuery("findAllDoctors");
+        return query.list();
     }
 
     @Override

@@ -17,7 +17,7 @@
 <div align="center">
             <h1>My Patients List</h1>
             <table border="1">
-                <th><a href="deleteDoctor?id=">Delete Doctors</a></th>
+                <th><%--<a href="deleteDoctor?id="></a>--%></th>
                 <th>Doctor Name</th>
                 <th>Patient Name</th>
                 <th>Date</th>
