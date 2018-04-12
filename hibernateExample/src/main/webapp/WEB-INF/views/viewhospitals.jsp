@@ -29,7 +29,7 @@
                   
                         <td>
                         <a href="viewDoctors?id=${hospital.id}">View Doctors</a>
-                          <a href="deleteHospital?id=${hospital.id}">Delete</a>
+                        
                         </td>
                     </tr>
                 </c:forEach>

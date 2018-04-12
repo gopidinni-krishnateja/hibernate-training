@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
 import com.example.modal.Patient;
-import com.example.modal.PatientAppointment;
 import com.example.service.AppointmentService;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
@@ -21,8 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -68,7 +65,7 @@ public class PatientController {
         patientService.addPatient(patient);
         List<Hospital> hospitals = hospitalService.getAllHospitals();
      //   System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
-        return new ModelAndView("index","hospitals",hospitals);
+        return new ModelAndView("/index","hospitals",hospitals);
     }
     @RequestMapping(value = "/viewPatients", method = RequestMethod.GET)
     public ModelAndView viewPatients(ModelAndView model, HttpServletRequest request){
@@ -93,7 +90,7 @@ public class PatientController {
         patientService.deletePatient(patientId);
         List<Hospital> hospitals = hospitalService.getAllHospitals();
         //System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
-        return new ModelAndView("index","hospitals",hospitals);
+        return new ModelAndView("/index","hospitals",hospitals);
     }
 }
 

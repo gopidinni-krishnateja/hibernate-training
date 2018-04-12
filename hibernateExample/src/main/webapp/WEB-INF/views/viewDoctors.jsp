@@ -39,10 +39,10 @@
                         <td>${doctor.type}</td>
                   
 
-                        <td><a href="deleteDoctor?id=${doctor.id}">Delete Doctor</a>
+                        <td>
                             <a href="editDoctor?id=${doctor.id}">Edit Doctor</a>
                             <a href="viewMyPatients?id=${doctor.id}">View My Appointments</a>
-                            <a href="/">Home</a>
+                            <a href="/index">Home</a>
                         </td>
                     </tr>
                 </c:forEach>

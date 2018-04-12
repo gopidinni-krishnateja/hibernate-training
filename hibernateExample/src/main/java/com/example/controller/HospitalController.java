@@ -2,23 +2,18 @@ package com.example.controller;
 
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
-import com.example.modal.Patient;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
 import com.example.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class HospitalController {
@@ -36,7 +31,7 @@ public class HospitalController {
     PatientService patientService;
     @Autowired
     private DoctorService doctorService;
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/index")
     public ModelAndView homePage()
     {
         List<Hospital> hospitals = hospitalService.getAllHospitals();
@@ -94,7 +89,7 @@ public class HospitalController {
         hospitalService.deleteHospital(hospitalId);
         List<Hospital> hospitals = hospitalService.getAllHospitals();
         //System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
-        return new ModelAndView("index","hospitals",hospitals);
+        return new ModelAndView("/index","hospitals",hospitals);
     }
     @RequestMapping(value = "/saveHospitalDoctors", method = RequestMethod.POST)
     public ModelAndView saveHospitalDoctors(HttpServletRequest request) {

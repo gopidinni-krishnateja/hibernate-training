@@ -19,7 +19,7 @@
 
 <div class="jumbotron text-center" >
     <p>No Appointments has Fixed</p>
-    <a href="/">Home</a>
+    <a href="/index">Home</a>
 </div>
 
 </body>

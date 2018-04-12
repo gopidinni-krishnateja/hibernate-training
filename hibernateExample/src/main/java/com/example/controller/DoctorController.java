@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
-import com.example.modal.Patient;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
 import com.example.service.PatientService;
@@ -36,7 +35,6 @@ public class DoctorController {
 
     @RequestMapping(value ="/saveDoctor",method = RequestMethod.POST)
     public  ModelAndView addDoctor(@ModelAttribute Doctor doctor,ModelAndView model,HttpServletRequest request){
-        System.out.println("HospitalId--->"+doctor.getHospital().getId());
         Hospital hospital = hospitalService.getHospital(doctor.getHospital().getId());
         doctor.setHospital(hospital);
           if (doctor.getId() == 0) {
@@ -46,7 +44,7 @@ public class DoctorController {
         }
         List<Hospital> hospitals = hospitalService.getAllHospitals();
         // System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
-        return new ModelAndView("index","hospitals",hospitals);
+        return new ModelAndView("/index","hospitals",hospitals);
     }
     @RequestMapping(value ="/viewAllDoctors",method = RequestMethod.GET)
     public  ModelAndView viewAllDoctors(ModelAndView model,HttpServletRequest request){
@@ -72,7 +70,7 @@ public class DoctorController {
         doctorService.deleteDoctor(doctorId);
         List<Hospital> hospitals = hospitalService.getAllHospitals();
        // System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
-        return new ModelAndView("index","hospitals",hospitals);
+        return new ModelAndView("/index","hospitals",hospitals);
     }
     @RequestMapping(value = "/viewDoctors", method = RequestMethod.GET)
     public ModelAndView viewDoctors(ModelAndView model,HttpServletRequest request){

@@ -33,7 +33,7 @@
                         <td>${doctor.lastName}</td>
                         <td>${doctor.type}</td>
                    
-                        <td><a href="/">Home</a></td>
+                        <td><a href="/index">Home</a></td>
                     </tr>
 
                 </c:forEach>
