@@ -101,8 +101,6 @@ public class HospitalController {
             hospitalId=Integer.parseInt(request.getParameter("hospitalId"));
             hospital=hospitalService.getHospital(hospitalId);
         }
-
-        System.out.println("Hospital--->"+hospital.getName());
         ArrayList<Doctor> doctors = new ArrayList<Doctor>();
         for(int i=0;i<doctorIds.length;i++){
             id=Integer.parseInt(doctorIds[i]);

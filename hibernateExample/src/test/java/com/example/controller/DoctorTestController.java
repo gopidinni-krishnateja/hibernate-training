@@ -53,27 +53,111 @@ public class DoctorTestController {
     @Test
     public void addDoctorTest(){
         Hospital hospital=new Hospital();
-        Doctor doctor1=new Doctor();
-        doctor1.setFirstName("Krishna");
-        doctor1.setLastName("Krishna");
-        doctor1.setType("ENT");
-        Doctor doctor=new Doctor();
-        doctor.setId(12);
         hospital.setId(10);
         hospital.setName("CARE");
         hospital.setCityName("Hyderabad");
-        doctor.setHospital(hospital);
+        Doctor doctor1=new Doctor();
+        doctor1.setId(1);
+        doctor1.setFirstName("Krishna");
+        doctor1.setLastName("Krishna");
+        doctor1.setType("ENT");
         doctor1.setHospital(hospital);
+        Doctor doctor=new Doctor();
+        doctor.setId(12);
+        doctor.setHospital(hospital);
         hospital.setDoctors(Arrays.asList(doctor1,doctor));
-
-        when(hospitalService.getHospital(12)).thenReturn(doctor.getHospital());
-        when(hospitalService.getAllHospitals()).thenReturn(Arrays.asList(new Hospital(),new Hospital()));
+        when(hospitalService.getHospital(doctor1.getHospital().getId())).thenReturn(doctor1.getHospital());
+        when(hospitalService.getAllHospitals()).thenReturn(Arrays.asList(hospital,hospital,hospital));
         request.setAttribute("doctor",doctor1);
         request.setRequestURI("/saveDoctor");
         request.setMethod("POST");
-        model.setViewName("index");
-        Assert.assertEquals(doctorController.addDoctor((Doctor) attribute, model,request), model);
+        model.setViewName("/index");
+        model.addObject("hospitals",Arrays.asList(hospital,hospital,hospital));
+        Assert.assertEquals(doctorController.addDoctor((Doctor) doctor1, model,request), model);
         Assert.assertEquals(200, response.getStatus());
-    }
 
+    }
+    @Test
+    public void viewAllDoctorsTest(){
+        Doctor doctor=new Doctor();
+        Doctor doctor1=new Doctor();
+        Hospital hospital=new Hospital();
+        hospital.setId(1);
+        when(doctorService.getUnAssignedDoctors()).thenReturn(Arrays.asList(doctor,doctor1));
+        when(hospitalService.getHospital(1)).thenReturn(hospital);
+        request.setParameter("hospitalId","1");
+        request.setMethod("GET");
+        model.setViewName("viewAllDoctors");
+        Assert.assertEquals(doctorController.viewAllDoctors(model,request), model);
+    }
+    @Test
+    public void viewDoctorsTest(){
+        Hospital hospital=new Hospital();
+        Doctor doctor=new Doctor();
+        Doctor doctor1=new Doctor();
+        hospital.setId(1);
+        hospital.setName("CARE");
+        hospital.setCityName("Hyderabad");
+
+        doctor.setId(1);
+        doctor1.setId(2);
+
+        doctor.setHospital(hospital);
+        doctor1.setHospital(hospital);
+        List<Doctor> doctors=new ArrayList<Doctor>();
+        doctors.add(doctor);
+        doctors.add(doctor1);
+        hospital.setDoctors(doctors);
+        System.out.println(hospital.getDoctors());
+        when(hospitalService.getHospital(hospital.getId())).thenReturn(hospital);
+        request.setParameter("id","1");
+        request.setMethod("GET");
+        model.setViewName("viewDoctors");
+        Assert.assertEquals(doctorController.viewDoctors(model,request), model);
+    }
+    @Test
+    public void editDoctorTest(){
+        Doctor doctor=new Doctor();
+        doctor.setId(1);
+        doctor.setFirstName("Krishna");
+        doctor.setLastName("Teja");
+        doctor.setType("ENT");
+        when(doctorService.getDoctor(1)).thenReturn(doctor);
+        request.setParameter("id","1");
+        request.setMethod("GET");
+        model.setViewName("addDoctor");
+        Assert.assertEquals(doctorController.editDoctor(model,request), model);
+    }
+    @Test
+    public void searchDoctorTest(){
+        Hospital hospital=new Hospital();
+        hospital.setId(1);
+        Doctor doctor=new Doctor();
+        doctor.setId(1);
+        doctor.setFirstName("Krishna");
+        doctor.setLastName("Teja");
+        doctor.setType("SKIN");
+        doctor.setHospital(hospital);
+        Doctor doctor1=new Doctor();
+        doctor1.setId(2);
+        doctor1.setFirstName("Kiran");
+        doctor1.setLastName("Kumar");
+        doctor1.setType("ENT");
+        when(doctorService.searchDoctor("K",hospital)).thenReturn(Arrays.asList(doctor,doctor1));
+        request.setParameter("hospitalId","1");
+        request.setMethod("GET");
+        model.setViewName("viewDoctors");
+        Assert.assertEquals(doctorController.searchDoctor(model,request), model);
+    }
+    @Test
+    public void deleteDoctorTest(){
+        Hospital hospital=new Hospital();
+        Hospital hospital1=new Hospital();
+        when(hospitalService.getAllHospitals()).thenReturn(Arrays.asList(hospital,hospital,hospital1));
+        request.setParameter("id","1");
+        request.setMethod("GET");
+        model.setViewName("/index");
+        model.addObject("hospitals",Arrays.asList(hospital,hospital,hospital1));
+        Assert.assertEquals(doctorController.deleteDoctor(model,request), model);
+    }
 }

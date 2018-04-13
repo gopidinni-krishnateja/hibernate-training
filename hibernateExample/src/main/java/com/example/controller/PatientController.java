@@ -83,14 +83,6 @@ public class PatientController {
         model.setViewName("patientForm");
         return model;
     }
-    @RequestMapping(value = "/deletePatient",method = RequestMethod.GET)
-    public ModelAndView deleteDoctor(ModelAndView model,HttpServletRequest request){
-        int patientId=Integer.parseInt(request.getParameter("id"));
-        System.out.println("PatientId---->"+patientId);
-        patientService.deletePatient(patientId);
-        List<Hospital> hospitals = hospitalService.getAllHospitals();
-        //System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
-        return new ModelAndView("/index","hospitals",hospitals);
-    }
+
 }
 

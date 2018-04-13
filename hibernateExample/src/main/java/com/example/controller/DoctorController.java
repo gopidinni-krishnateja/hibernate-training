@@ -35,7 +35,8 @@ public class DoctorController {
 
     @RequestMapping(value ="/saveDoctor",method = RequestMethod.POST)
     public  ModelAndView addDoctor(@ModelAttribute Doctor doctor,ModelAndView model,HttpServletRequest request){
-        Hospital hospital = hospitalService.getHospital(doctor.getHospital().getId());
+        int hospital_id=doctor.getHospital().getId();
+        Hospital hospital = hospitalService.getHospital(hospital_id);
         doctor.setHospital(hospital);
           if (doctor.getId() == 0) {
             doctorService.addDoctor(doctor);
