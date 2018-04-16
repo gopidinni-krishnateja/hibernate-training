@@ -25,20 +25,9 @@ public class DoctorDAOimpl implements DoctorDAO {
 
     @Override
     public void deleteDoctor(Integer doctor_id) {
-        System.out.println("Delete Doctor----->"+doctor_id);
         Doctor doctor = (Doctor) sessionFactory.getCurrentSession().load(Doctor.class, doctor_id);
         if(null != doctor){
-            doctor.setId(doctor_id);
-           List<PatientAppointment> appointments=doctor.getAppointments();
-           /*for(int i=0;i<appointments.size();i++){
-               System.out.println("Removed-->"+appointments.get(i).getPatient().getFirstName());
-//               appointments.remove(appointments.get(i));
-//               Patient patient=appointments.get(i).getPatient();
-               this.sessionFactory.getCurrentSession().delete(appointments.get(i));
-           }*/
-            doctor.getAppointments().clear();
             this.sessionFactory.getCurrentSession().delete(doctor);
-            System.out.println("Delete Doctor----->"+doctor_id);
         }
     }
 
@@ -62,8 +51,7 @@ public class DoctorDAOimpl implements DoctorDAO {
 
     @Override
     public List<Doctor> getUnAssigned() {
-        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(Doctor.class)
-                .add(Restrictions.isNull("hospital"));
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(Doctor.class).add(Restrictions.isNull("hospital"));
         return criteria.list();
     }
 
