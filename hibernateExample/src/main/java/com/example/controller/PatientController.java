@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
 import com.example.modal.Patient;
+import com.example.modal.PatientAppointment;
 import com.example.service.AppointmentService;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
@@ -50,6 +51,7 @@ public class PatientController {
     public ModelAndView fixAppointment(ModelAndView model){
         List<Doctor> doctors=doctorService.getAllDoctors();
         model.addObject("doctors",doctors);
+        model.addObject("editMode",false);
         model.addObject("patient",new Patient());
         model.setViewName("patientForm");
         return model;
@@ -78,10 +80,18 @@ public class PatientController {
         Patient patient=patientService.getPatient(patientId);
         model.addObject("patient",patient);
         model.addObject("patientId",patientId);
+        model.addObject("editMode",true);
         List<Doctor> doctors=doctorService.getAllDoctors();
         model.addObject("doctors",doctors);
         model.setViewName("patientForm");
         return model;
+    }
+    @RequestMapping(value = "/deletePatient",method = RequestMethod.GET)
+    public ModelAndView deletePatient( ModelAndView model,HttpServletRequest request){
+        int patientId=Integer.parseInt(request.getParameter("id"));
+        patientService.deletePatient(patientId);
+        List<Hospital> hospitals = hospitalService.getAllHospitals();
+        return new ModelAndView("/index","hospitals",hospitals);
     }
 
 }

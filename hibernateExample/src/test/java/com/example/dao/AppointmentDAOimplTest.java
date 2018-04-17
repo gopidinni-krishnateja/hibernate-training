@@ -6,15 +6,16 @@ import com.example.modal.PatientAppointment;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import org.junit.*;
-import org.junit.rules.ExpectedException;
+
 import org.mockito.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.*;
 
 public class AppointmentDAOimplTest {
@@ -34,7 +35,7 @@ public class AppointmentDAOimplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         appointments = getAppointmentList();
-        Mockito.doReturn(session).when(sessionFactory).getCurrentSession();
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
 
     }
     public List<PatientAppointment> getAppointmentList(){
@@ -64,8 +65,8 @@ public class AppointmentDAOimplTest {
         appointments.add(appointment1);
         return appointments;
     }
-    @Test(expected = RuntimeException.class)
-    public void testAddAppointment(){
+    @Test
+    public void testAddAppointment() throws Exception{
         PatientAppointment appointment = new PatientAppointment();
         Doctor doctor=new Doctor();
         doctor.setId(1);
@@ -77,14 +78,12 @@ public class AppointmentDAOimplTest {
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);
         Assert.assertNotNull(appointmentDAO);
-        Mockito.doReturn(criteria).when(session).saveOrUpdate(appointment);
-        //Assert.assertEquals(appointmentDAO.addPatientAppointment(appointment),appointment);
-        //doThrow(RuntimeException.class).when(appointmentDAO).addPatientAppointment(appointment);
-        //appointmentDAOimpl.addPatientAppointment(appointment);
-        verify(appointmentDAOimpl, atLeastOnce()).addPatientAppointment(appointment);
+        session.saveOrUpdate(appointment);
+        appointmentDAOimpl.addPatientAppointment(appointment);
+        verify(session,atLeastOnce()).saveOrUpdate(appointment);
 
     }
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testupdatePatientAppointment(){
         PatientAppointment appointment = new PatientAppointment();
         Doctor doctor=new Doctor();
@@ -97,13 +96,11 @@ public class AppointmentDAOimplTest {
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);
         Assert.assertNotNull(appointmentDAO);
-        Mockito.doReturn(criteria).when(session).update(appointment);
-        //when(appointmentDAO.updatePatientAppointment(appointment)).thenReturn(new PatientAppointment());
-        //when(appointmentDAOimpl.updatePatientAppointment(appointment)).thenReturn(new PatientAppointment());
-        //Assert.assertEquals(appointmentDAOimpl.updatePatientAppointment(appointment),appointment);
-       // verify(appointmentDAOimpl, atLeastOnce()).updatePatientAppointment(new PatientAppointment());
+       session.update(appointment);
+       appointmentDAOimpl.updatePatientAppointment(appointment);
+       verify(session,atLeastOnce()).update(appointment);
     }
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testgetPatientAppointment(){
         PatientAppointment appointment = new PatientAppointment();
         Doctor doctor=new Doctor();
@@ -116,23 +113,25 @@ public class AppointmentDAOimplTest {
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);
         Assert.assertNotNull(appointmentDAO);
-        when(appointmentDAO.getPatientAppointment(1)).thenReturn(appointment);
-        when(appointmentDAOimpl.getPatientAppointment(1)).thenReturn(appointment);
-        verify(appointmentDAOimpl, atLeastOnce()).getPatientAppointment(1);
+        session.get(PatientAppointment.class, 1);
+        appointmentDAOimpl.getPatientAppointment(1);
+        verify(session,atLeastOnce()).get(PatientAppointment.class, 1);
     }
     @Test(expected = RuntimeException.class)
     public void testGetAll(){
         Assert.assertNotNull(appointmentDAO);
-        when(appointmentDAO.getAll()).thenReturn(appointments);
-        when(appointmentDAOimpl.getAll()).thenReturn(appointments);
-        verify(appointmentDAOimpl, atLeastOnce()).getAll();
-        verify(appointmentDAO,atLeastOnce()).getAll();
+        criteria=session.createCriteria(PatientAppointment.class);
+        when(criteria.list()).thenReturn(appointments);
+        doThrow(RuntimeException.class).when(appointmentDAOimpl).getAll();
+
     }
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testDeletePatientAppointment(){
         Assert.assertNotNull(appointmentDAO);
-        doThrow(RuntimeException.class).when(appointmentDAO).deletePatientAppointment(1);
+        sessionFactory.getCurrentSession().delete(1);
+        session.load(PatientAppointment.class,1);
         appointmentDAOimpl.deletePatientAppointment(1);
-        verify(appointmentDAOimpl, atLeastOnce()).deletePatientAppointment(1);
+        verify(session,atLeastOnce()).load(PatientAppointment.class,1);
     }
+
 }

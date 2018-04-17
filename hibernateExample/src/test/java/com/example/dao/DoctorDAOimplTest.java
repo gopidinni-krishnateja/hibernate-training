@@ -3,6 +3,9 @@ package com.example.dao;
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
 import com.example.modal.PatientAppointment;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,11 +24,18 @@ public class DoctorDAOimplTest {
     DoctorDAO doctorDAO;
     @InjectMocks
     DoctorDAOimpl doctorDAOimpl;
+    @Mock
+    private SessionFactory sessionFactory;
+    @Mock
+    private Session session;
+    @Mock
+    Criteria criteria;
     @Spy
     List<Doctor> doctors = new ArrayList<Doctor>();
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
         doctors = getDoctorList();
     }
     Hospital hospital=new Hospital();
@@ -51,33 +61,34 @@ public class DoctorDAOimplTest {
         doctors.add(doctor1);
         return doctors;
     }
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testAddDoctor(){
         Assert.assertNotNull(doctorDAO);
-        doThrow(RuntimeException.class).when(doctorDAO).addDoctor(doctor);
+        session.saveOrUpdate(doctor);
         doctorDAOimpl.addDoctor(doctor);
-        verify(doctorDAOimpl, atLeastOnce()).addDoctor(doctor);
+        verify(session, atLeastOnce()).saveOrUpdate(doctor);
     }
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testDeleteDoctor(){
         Assert.assertNotNull(doctorDAO);
-        doThrow(RuntimeException.class).when(doctorDAO).deleteDoctor(1);
+        sessionFactory.getCurrentSession().delete(1);
+        session.load(Doctor.class,1);
         doctorDAOimpl.deleteDoctor(1);
-        verify(doctorDAOimpl, atLeastOnce()).deleteDoctor(1);
+        verify(session,atLeastOnce()).load(Doctor.class,1);
     }
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testUpdateDoctor(){
         Assert.assertNotNull(doctorDAO);
-        doThrow(RuntimeException.class).when(doctorDAO).updateDoctor(doctor);
+        session.update(doctor);
         doctorDAOimpl.updateDoctor(doctor);
-        verify(doctorDAOimpl, atLeastOnce()).updateDoctor(doctor);
+        verify(session,atLeastOnce()).update(doctor);
     }
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetDoctor(){
         Assert.assertNotNull(doctorDAO);
-        when(doctorDAO.getDoctor(1)).thenReturn(doctor);
-        when(doctorDAOimpl.getDoctor(1)).thenReturn(doctor);
-        verify(doctorDAOimpl, atLeastOnce()).getDoctor(1);
+        session.get(Doctor.class,1);
+        doctorDAOimpl.getDoctor(1);
+        verify(session, atLeastOnce()).get(Doctor.class,1);
     }
     @Test(expected = RuntimeException.class)
     public void testGetAll(){

@@ -2,6 +2,8 @@ package com.example.controller;
 
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
+import com.example.modal.Patient;
+import com.example.modal.PatientAppointment;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
 import com.example.service.PatientService;
@@ -67,8 +69,19 @@ public class DoctorController {
     @RequestMapping(value = "/deleteDoctor",method = RequestMethod.GET)
     public ModelAndView deleteDoctor(ModelAndView model,HttpServletRequest request){
         int doctorId=Integer.parseInt(request.getParameter("id"));
-        System.out.println("DoctorId---->"+doctorId);
+        Doctor doctor=doctorService.getDoctor(doctorId);
+        if(doctor.getAppointments()!=null) {
+            List<PatientAppointment> appointments = doctor.getAppointments();
+            for (int i = 0; i < appointments.size(); i++) {
+                if (appointments.get(i).getPatient() != null) {
+                    patientService.deletePatient(appointments.get(i).getPatient().getId());
+                }
+            }
+            System.out.println("Patients Deleted Success--->");
+        }
         doctorService.deleteDoctor(doctorId);
+        System.out.println("Doctor Deleted Success--->");
+
         List<Hospital> hospitals = hospitalService.getAllHospitals();
        // System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
         return new ModelAndView("/index","hospitals",hospitals);

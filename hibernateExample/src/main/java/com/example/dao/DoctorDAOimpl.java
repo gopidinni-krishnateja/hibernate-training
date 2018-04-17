@@ -39,8 +39,7 @@ public class DoctorDAOimpl implements DoctorDAO {
 
     @Override
     public Doctor getDoctor(Integer doctor_id) {
-        return (Doctor) sessionFactory.getCurrentSession().get(
-                Doctor.class, doctor_id);
+        return (Doctor) sessionFactory.getCurrentSession().get(Doctor.class, doctor_id);
     }
 
     @Override

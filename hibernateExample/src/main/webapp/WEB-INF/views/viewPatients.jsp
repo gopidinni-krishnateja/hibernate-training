@@ -23,7 +23,7 @@
                         <td>${totalData.time}</td>
                         <td><a href="/index">Home</a> </td>
                         <td><a href="editPatient?id=${totalData.PatientId}">Edit Patient</a></td>
-                    
+                        <td><a href="deletePatient?id=${totalData.PatientId}">Delete Patient</a></td>
                     </tr>
                 </c:forEach>
             </table>

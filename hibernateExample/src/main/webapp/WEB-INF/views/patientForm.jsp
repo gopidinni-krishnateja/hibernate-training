@@ -63,7 +63,7 @@
                 <div class="form-group">
                 <td>Select Doctor Type</td>
                 <td>
-                    <form:select items="${doctors}"  class="form-control"  itemLabel="type" itemValue="id" path="appointment.doctor.id"></form:select>
+                    <form:select disabled="${editMode}" items="${doctors}"  class="form-control"  itemLabel="type" itemValue="id" path="appointment.doctor.id"></form:select>
                 </td>
                 </div>
             </tr>

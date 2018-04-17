@@ -41,8 +41,6 @@ public class AppointmentDAOimpl implements AppointmentDAO {
     @Override
     public void deletePatientAppointment(Integer PatientAppointment_id) {
         PatientAppointment patientAppointment = (PatientAppointment) sessionFactory.getCurrentSession().load(PatientAppointment.class, PatientAppointment_id);
-        if(null != patientAppointment){
-            this.sessionFactory.getCurrentSession().delete(PatientAppointment_id);
-        }
+            this.sessionFactory.getCurrentSession().delete(patientAppointment);
     }
 }

@@ -2,6 +2,7 @@ package com.example.dao;
 
 import com.example.modal.Hospital;
 import com.example.modal.Patient;
+import com.example.service.PatientService;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -25,9 +26,11 @@ public class PatientDAOimpl implements  PatientDAO{
     @Autowired
     SessionFactory sessionFactory;
 
+    @Autowired
+    PatientService patientService;
+
     @Override
     public void addPatient(Patient patient) {
-        System.out.println("AppointmentData->  "+patient.getAppointment());
         sessionFactory.getCurrentSession().saveOrUpdate(patient);
     }
 
@@ -35,7 +38,7 @@ public class PatientDAOimpl implements  PatientDAO{
     public void deletePatient(Integer Patient_id) {
         Patient patient = (Patient) sessionFactory.getCurrentSession().load(Patient.class, Patient_id);
         if(null != patient){
-            this.sessionFactory.getCurrentSession().delete(patient);
+            sessionFactory.getCurrentSession().delete(patient);
         }
     }
 

@@ -37,7 +37,7 @@ public class Doctor implements Serializable {
         this.hospital = hospital;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
