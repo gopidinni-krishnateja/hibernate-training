@@ -91,6 +91,7 @@ public class PatientServiceTest {
         when(patientDAO.getPatient(id)).thenReturn(patient);
         patientServiceimpl.getPatient(id);
         verify(patientDAO,atLeastOnce()).getPatient(id);
+        patientServiceimpl.getPatientDAO();
     }
 
 }

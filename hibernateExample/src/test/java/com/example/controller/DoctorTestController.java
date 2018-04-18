@@ -2,8 +2,11 @@ package com.example.controller;
 
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
+import com.example.modal.Patient;
+import com.example.modal.PatientAppointment;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
+import com.example.service.PatientService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +17,10 @@ import org.mockito.Spy;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +35,8 @@ public class DoctorTestController {
     DoctorService doctorService;
     @Mock
     HospitalService hospitalService;
+    @Mock
+    PatientService patientService;
     @Spy
     ModelAndView model;
 
@@ -52,6 +59,7 @@ public class DoctorTestController {
     }
     @Test
     public void addDoctorTest(){
+        List<Hospital> hospitals=new ArrayList<Hospital>();
         Hospital hospital=new Hospital();
         hospital.setId(10);
         hospital.setName("CARE");
@@ -72,8 +80,43 @@ public class DoctorTestController {
         request.setRequestURI("/saveDoctor");
         request.setMethod("POST");
         model.setViewName("/index");
-        model.addObject("hospitals",Arrays.asList(hospital,hospital,hospital));
-        Assert.assertEquals(doctorController.addDoctor((Doctor) doctor1, model,request), model);
+        Integer [] k={1,3};
+        hospitals.add(hospital);
+        hospitals.add(hospital);
+        hospitals.add(hospital);
+        model.addObject("hospitals",hospitals);
+        Assert.assertEquals(doctorController.addDoctor( doctor1, model,request), model);
+        Assert.assertEquals(200, response.getStatus());
+
+    }
+    @Test
+    public void addDoctorTestElse(){
+        List<Hospital> hospitals=new ArrayList<Hospital>();
+        Hospital hospital=new Hospital();
+        hospital.setId(10);
+        hospital.setName("CARE");
+        hospital.setCityName("Hyderabad");
+        Doctor doctor1=new Doctor();
+        doctor1.setFirstName("Krishna");
+        doctor1.setLastName("Krishna");
+        doctor1.setType("ENT");
+        doctor1.setHospital(hospital);
+        Doctor doctor=new Doctor();
+        doctor.setId(12);
+        doctor.setHospital(hospital);
+        hospital.setDoctors(Arrays.asList(doctor1,doctor));
+        when(hospitalService.getHospital(doctor1.getHospital().getId())).thenReturn(doctor1.getHospital());
+        when(hospitalService.getAllHospitals()).thenReturn(Arrays.asList(hospital,hospital,hospital));
+        request.setAttribute("doctor",doctor1);
+        request.setRequestURI("/saveDoctor");
+        request.setMethod("POST");
+        model.setViewName("/index");
+        Integer [] k={1,3};
+        hospitals.add(hospital);
+        hospitals.add(hospital);
+        hospitals.add(hospital);
+        model.addObject("hospitals",hospitals);
+        Assert.assertEquals(doctorController.addDoctor( doctor1, model,request), model);
         Assert.assertEquals(200, response.getStatus());
 
     }
@@ -84,6 +127,19 @@ public class DoctorTestController {
         Hospital hospital=new Hospital();
         hospital.setId(1);
         when(doctorService.getUnAssignedDoctors()).thenReturn(Arrays.asList(doctor,doctor1));
+        when(hospitalService.getHospital(1)).thenReturn(hospital);
+        request.setParameter("hospitalId","1");
+        request.setMethod("GET");
+        model.setViewName("viewAllDoctors");
+        Assert.assertEquals(doctorController.viewAllDoctors(model,request), model);
+    }
+    @Test
+    public void viewAllDoctorsTestElse(){
+        Doctor doctor=new Doctor();
+        Doctor doctor1=new Doctor();
+        Hospital hospital=new Hospital();
+        hospital.setId(1);
+        when(doctorService.getUnAssignedDoctors()).thenReturn(Arrays.asList());
         when(hospitalService.getHospital(1)).thenReturn(hospital);
         request.setParameter("hospitalId","1");
         request.setMethod("GET");
@@ -153,6 +209,19 @@ public class DoctorTestController {
     public void deleteDoctorTest(){
         Hospital hospital=new Hospital();
         Hospital hospital1=new Hospital();
+        Doctor doctor=new Doctor();
+        doctor.setId(1);
+        PatientAppointment appointment=new PatientAppointment();
+        appointment.setId(1);
+        appointment.setTime("16:20");
+        appointment.setDate(new Date(20180424).toLocalDate());
+        Patient patient=new Patient();
+        patient.setId(1);
+        patient.setAppointment(appointment);
+        appointment.setPatient(patient);
+        doctor.setAppointments(Arrays.asList(appointment,appointment,appointment));
+        when(doctorService.getDoctor(1)).thenReturn(doctor);
+        when(patientService.getPatient(1)).thenReturn(patient);
         when(hospitalService.getAllHospitals()).thenReturn(Arrays.asList(hospital,hospital,hospital1));
         request.setParameter("id","1");
         request.setMethod("GET");

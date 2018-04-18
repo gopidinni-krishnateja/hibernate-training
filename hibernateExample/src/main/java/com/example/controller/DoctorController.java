@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,7 @@ public class DoctorController {
     }
 
     @RequestMapping(value ="/saveDoctor",method = RequestMethod.POST)
-    public  ModelAndView addDoctor(@ModelAttribute Doctor doctor,ModelAndView model,HttpServletRequest request){
+    public  ModelAndView addDoctor( @ModelAttribute Doctor doctor, ModelAndView model, HttpServletRequest request){
         int hospital_id=doctor.getHospital().getId();
         Hospital hospital = hospitalService.getHospital(hospital_id);
         doctor.setHospital(hospital);
@@ -109,7 +110,6 @@ public class DoctorController {
         String firstName=request.getParameter("firstName");
         Integer hospitalId=Integer.parseInt(request.getParameter("hospitalId"));
         Hospital hospital=hospitalService.getHospital(hospitalId);
-        System.out.println("---->"+hospitalId);
         List<Doctor> doctors=doctorService.searchDoctor(firstName,hospital);
         model.addObject("hospitalId",hospitalId);
         model.addObject("doctors",doctors);

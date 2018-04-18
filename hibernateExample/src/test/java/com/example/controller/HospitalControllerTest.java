@@ -69,6 +69,17 @@ public class HospitalControllerTest {
         Assert.assertEquals(hospitalController.newHospital(model), model);
     }
     @Test
+    public void newHospitalTestElse(){
+        Doctor doctor=new Doctor();
+        Doctor doctor1=new Doctor();
+        Hospital hospital=new Hospital();
+        hospital.setId(1);
+        when(doctorService.getUnAssignedDoctors()).thenReturn(Arrays.asList());
+        request.setMethod("GET");
+        model.setViewName("hospital");
+        Assert.assertEquals(hospitalController.newHospital(model), model);
+    }
+    @Test
     public void saveHospitalTest(){
         Doctor doctor=new Doctor();
         Doctor doctor1=new Doctor();

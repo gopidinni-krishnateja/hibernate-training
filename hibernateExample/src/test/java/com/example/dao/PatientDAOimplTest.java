@@ -46,6 +46,9 @@ public class PatientDAOimplTest {
         MockitoAnnotations.initMocks(this);
         patients = getPatients();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createCriteria(Patient.class, "pa")).thenReturn(criteria);
+        when(session.createCriteria(Doctor.class, "doc")).thenReturn(criteria);
+        when(session.createCriteria(Hospital.class, "hos")).thenReturn(criteria);
 
     }
     private List<Patient> getPatients() {
@@ -126,9 +129,11 @@ public class PatientDAOimplTest {
     public void testGetAllPatients(){
         Assert.assertNotNull(patientDAO);
         criteria=session.createCriteria(PatientAppointment.class);
-        mock(ProjectionList.class).add(Projections.property("id"));
-       projectionList.add(Projections.property("id"));
-        when(criteria.list()).thenReturn(getPatients());
+        session.createCriteria(Doctor.class);
+        session.createCriteria(Hospital.class);
+        /*mock(ProjectionList.class).add(Projections.property("id"));
+       projectionList.add(Projections.property("id"));*/
+        when(patientDAOimpl.getAllPatients()).thenReturn(getPatients());
         doThrow(RuntimeException.class).when(patientDAOimpl).getAllPatients();
     }
     @Test(expected = RuntimeException.class)

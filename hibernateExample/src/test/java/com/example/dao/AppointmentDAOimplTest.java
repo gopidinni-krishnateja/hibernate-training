@@ -1,6 +1,7 @@
 package com.example.dao;
 
 import com.example.modal.Doctor;
+import com.example.modal.Hospital;
 import com.example.modal.Patient;
 import com.example.modal.PatientAppointment;
 import org.hibernate.Criteria;
@@ -36,6 +37,7 @@ public class AppointmentDAOimplTest {
         MockitoAnnotations.initMocks(this);
         appointments = getAppointmentList();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createCriteria(Doctor.class)).thenReturn(criteria);
 
     }
     public List<PatientAppointment> getAppointmentList(){
@@ -121,7 +123,8 @@ public class AppointmentDAOimplTest {
     public void testGetAll(){
         Assert.assertNotNull(appointmentDAO);
         criteria=session.createCriteria(PatientAppointment.class);
-        when(criteria.list()).thenReturn(appointments);
+        appointmentDAOimpl.getAll();
+        when(appointmentDAOimpl.getAll()).thenReturn(appointments);
         doThrow(RuntimeException.class).when(appointmentDAOimpl).getAll();
 
     }

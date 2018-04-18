@@ -37,6 +37,8 @@ public class PatientTestController {
     HospitalService hospitalService;
     @Mock
     PatientService patientService;
+    @InjectMocks
+    WebDataBinder binder;
     @Mock
     AppointmentService appointmentService;
     @Spy
@@ -88,6 +90,26 @@ public class PatientTestController {
         Assert.assertEquals(patientController.addPatient((Patient) patient,model,request),model);
     }
     @Test
+    public void addPatientTestElse(){
+        PatientAppointment appointment=new PatientAppointment();
+        Patient patient=new Patient();
+        Hospital hospital=new Hospital();
+        Hospital hospital1=new Hospital();
+        Hospital hospital2=new Hospital();
+        patient.setFirstName("Krishna");
+        patient.setLastname("Teja");
+        patient.setAge(24);
+        patient.setGender("MALE");
+        appointment.setId(1);
+        appointment.setDate(new Date(20180424).toLocalDate());
+        appointment.setTime("15:20");
+        patient.setAppointment(appointment);
+        when(hospitalService.getAllHospitals()).thenReturn(Arrays.asList(hospital,hospital1,hospital2));
+        model.addObject("hospitals",Arrays.asList(hospital,hospital1,hospital2));
+        model.setViewName("/index");
+        Assert.assertEquals(patientController.addPatient((Patient) patient,model,request),model);
+    }
+    @Test
     public void viewPatients(){
         Patient patient=new Patient();
         Patient patient1=new Patient();
@@ -111,7 +133,23 @@ public class PatientTestController {
         request.setMethod("GET");
         request.setParameter("id","2");
         Assert.assertEquals(patientController.editPatient(model,request),model);
-
+    }
+    @Test
+    public void deletePatientTest(){
+        Hospital hospital=new Hospital();
+        Hospital hospital1=new Hospital();
+       Patient patient=new Patient();
+       patient.setId(1);
+        when(hospitalService.getAllHospitals()).thenReturn(Arrays.asList(hospital,hospital,hospital1));
+        request.setParameter("id","1");
+        request.setMethod("GET");
+        model.setViewName("/index");
+        model.addObject("hospitals",Arrays.asList(hospital,hospital,hospital1));
+        Assert.assertEquals(patientController.deletePatient(model,request), model);
+    }
+    @Test
+    public void testInitBinder(){
+        patientController.initBinder(binder);
     }
 
 

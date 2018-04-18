@@ -2,6 +2,7 @@ package com.example.dao;
 
 import com.example.modal.Doctor;
 import com.example.modal.Hospital;
+import com.example.modal.Patient;
 import com.example.modal.PatientAppointment;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -36,6 +37,7 @@ public class DoctorDAOimplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createCriteria(Doctor.class)).thenReturn(criteria);
         doctors = getDoctorList();
     }
     Hospital hospital=new Hospital();
