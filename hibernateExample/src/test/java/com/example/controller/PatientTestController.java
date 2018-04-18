@@ -115,7 +115,7 @@ public class PatientTestController {
         Patient patient1=new Patient();
         Patient patient2=new Patient();
         when(patientService.getAllPatients()).thenReturn(Arrays.asList(patient,patient1,patient2));
-        model.addObject("patients",Arrays.asList(patient,patient1,patient2));
+        model.addObject("totalData",Arrays.asList(patient,patient1,patient2));
         model.setViewName("viewPatients");
         Assert.assertEquals(patientController.viewPatients(model,request),model);
     }
