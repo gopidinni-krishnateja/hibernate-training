@@ -29,7 +29,7 @@ public class PatientAppointment implements Serializable {
     @Column(name = "time")
     public String time;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
@@ -67,7 +67,7 @@ public class PatientAppointment implements Serializable {
         this.patient = patient;
     }
 
-    @OneToOne (mappedBy="appointment",cascade = {})
+    @OneToOne (mappedBy="appointment")
     private Patient patient;
 
 

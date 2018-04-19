@@ -45,7 +45,6 @@ public class PatientController {
     @Autowired
     DoctorService doctorService;
 
-    int appointmentId;
 
     @RequestMapping(value ="/addPatient",method = RequestMethod.GET)
     public ModelAndView fixAppointment(ModelAndView model){
@@ -64,7 +63,6 @@ public class PatientController {
         } else {
             patientService.updatePatient(patient);
         }
-        patientService.addPatient(patient);
         List<Hospital> hospitals = hospitalService.getAllHospitals();
      //   System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
         return new ModelAndView("/index","hospitals",hospitals);

@@ -23,7 +23,7 @@ public class Hospital implements Serializable {
     @Column(name = "city_name")
     private String cityName;
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Doctor> doctors;
 
     public int getId() {

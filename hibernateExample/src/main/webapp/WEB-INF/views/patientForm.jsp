@@ -20,6 +20,7 @@
     <form:form action="savePatient" method="post" modelAttribute="patient">
         <table>
             <form:hidden path="id"/>
+            <form:hidden path="appointment.id"/>
             <tr>
                 <div class="form-group">
                 <td>First Name:</td>
@@ -63,7 +64,8 @@
                 <div class="form-group">
                 <td>Select Doctor Type</td>
                 <td>
-                    <form:select disabled="${editMode}" items="${doctors}"  class="form-control"  itemLabel="type" itemValue="id" path="appointment.doctor.id"></form:select>
+
+                    <form:select  id="Select" items="${doctors}"  class="form-control"  itemLabel="type" itemValue="id" path="appointment.doctor.id"></form:select>
                 </td>
                 </div>
             </tr>

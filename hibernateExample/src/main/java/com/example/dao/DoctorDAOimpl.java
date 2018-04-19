@@ -26,9 +26,7 @@ public class DoctorDAOimpl implements DoctorDAO {
     @Override
     public void deleteDoctor(Integer doctor_id) {
         Doctor doctor = (Doctor) sessionFactory.getCurrentSession().load(Doctor.class, doctor_id);
-        if(null != doctor){
             this.sessionFactory.getCurrentSession().delete(doctor);
-        }
     }
 
     @Override
@@ -46,6 +44,7 @@ public class DoctorDAOimpl implements DoctorDAO {
     public List<Doctor> getAll() {
         Query query=sessionFactory.getCurrentSession().getNamedQuery("findAllDoctors");
         return query.list();
+
     }
 
     @Override
@@ -56,7 +55,6 @@ public class DoctorDAOimpl implements DoctorDAO {
 
     @Override
     public List<Doctor> searchDoctor(String firstName,Hospital hospital) {
-        System.out.println("DAOImpl--->"+hospital.getName());
         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(Doctor.class)
           .add(Restrictions.and((Restrictions.eq("hospital",hospital)),(Restrictions.like("firstName", "%"+firstName+"%").ignoreCase()))) ;
         return criteria.list();

@@ -26,7 +26,7 @@ public class Doctor implements Serializable {
     @Column(name = "type")
     public String type;
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL,orphanRemoval = true, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL,orphanRemoval = true, fetch=FetchType.LAZY)
     private List<PatientAppointment> appointments;
 
     public Hospital getHospital() {
@@ -37,7 +37,7 @@ public class Doctor implements Serializable {
         this.hospital = hospital;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
