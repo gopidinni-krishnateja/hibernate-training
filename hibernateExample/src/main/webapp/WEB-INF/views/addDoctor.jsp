@@ -8,9 +8,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <title>Bootstrap Project</title>
     <title> Doctor </title>
 </head>
+<style>
+    .error {
+        color: #ff0000;
+    }
+
+    .errorblock {
+        color: #000;
+        background-color: #ffEEEE;
+        border: 1px solid #ff0000;
+    }
+</style>
 <body>
 <div align="center"><h2>Doctor Form</h2>
 </div>
@@ -22,21 +32,37 @@
             <tr>
                 <div class="form-group">
                 <td>First Name:</td>
-                <td><form:input class="form-control" type="text" name="firstName" path="firstName"/></td>
+                <td><form:input class="form-control" type="text" name="firstName" path="firstName"/></td><br>
+                    <td></td>
                 </div>
             </tr>
+                <td>
+            <div class="row">
+                <td><form:errors path="firstName" cssClass="errorblock"></form:errors></td>
+            </div>
+            </td>
             <tr>
                 <div class="form-group">
                 <td>Last Name:</td>
                 <td><form:input type="text" class="form-control" name="lastName" path="lastName"/></td>
                 </div>
             </tr>
+                <td>
+            <div class="row">
+                <td><form:errors path="lastName" cssClass="errorblock"></form:errors></td>
+            </div>
+            </td>
             <tr>
                 <div class="form-group">
                 <td>Specialize In</td>
                 <td><form:input type="text" class="form-control" name="type" path="type" /></td>
                 </div>
             </tr>
+            <td>
+            <div class="row">
+                <td><form:errors path="type" cssClass="errorblock"></form:errors></td>
+            </div>
+            </td>
             <tr>
                 <td colspan="2" align="center"><input class="btn btn-primary" type="submit" value="Save" /></td>
             </tr>

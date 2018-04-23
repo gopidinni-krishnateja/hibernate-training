@@ -7,22 +7,32 @@ import com.example.modal.PatientAppointment;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
 import com.example.service.PatientService;
+import com.example.validators.DoctorValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Scanner;
 
 @Controller
 public class DoctorController {
+
     @Autowired
     private HospitalService hospitalService;
 
+    @Autowired
+    DoctorValidator doctorValidator;
     @Autowired
     private DoctorService doctorService;
     int hospitalId;
@@ -37,18 +47,26 @@ public class DoctorController {
     }
 
     @RequestMapping(value ="/saveDoctor",method = RequestMethod.POST)
-    public  ModelAndView addDoctor( @ModelAttribute Doctor doctor, ModelAndView model, HttpServletRequest request){
-        int hospital_id=doctor.getHospital().getId();
-        Hospital hospital = hospitalService.getHospital(hospital_id);
-        doctor.setHospital(hospital);
-          if (doctor.getId() == 0) {
-            doctorService.addDoctor(doctor);
+    public  ModelAndView addDoctor(@Valid @ModelAttribute("doctor") Doctor doctor, BindingResult result, ModelAndView model){
+        if(result.hasErrors()){
+            //model.addObject("doctor",new Doctor());
+              model.setViewName("addDoctor");
         } else {
-              doctorService.updateDoctor(doctor);
+            int hospital_id=doctor.getHospital().getId();
+            Hospital hospital = hospitalService.getHospital(hospital_id);
+            doctor.setHospital(hospital);
+
+            if (doctor.getId() == 0) {
+                doctorService.addDoctor(doctor);
+            } else {
+                doctorService.updateDoctor(doctor);
+            }
+            List<Hospital> hospitals = hospitalService.getAllHospitals();
+            model.addObject("hospitals",hospitals);
+            model.setViewName("/index");
+            // System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
         }
-        List<Hospital> hospitals = hospitalService.getAllHospitals();
-        // System.out.println("hospitals---> "+hospitals.get(0).getDoctors().get(0).getFirstName());
-        return new ModelAndView("/index","hospitals",hospitals);
+        return model;
     }
     @RequestMapping(value ="/viewAllDoctors",method = RequestMethod.GET)
     public  ModelAndView viewAllDoctors(ModelAndView model,HttpServletRequest request){

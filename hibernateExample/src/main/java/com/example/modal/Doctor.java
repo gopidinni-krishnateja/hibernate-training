@@ -1,7 +1,12 @@
 package com.example.modal;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,13 +20,17 @@ public class Doctor implements Serializable {
     @SequenceGenerator(name="doctor_sequence", sequenceName = "doctor_seq", allocationSize = 1)
     private int Id;
 
+    @NotEmpty
     @NotNull
     @Column(name="first_name")
     private String firstName;
 
+    @NotEmpty
     @NotNull
     @Column(name="last_name")
     private String lastName;
+
+    @NotEmpty
     @NotNull
     @Column(name = "type")
     public String type;

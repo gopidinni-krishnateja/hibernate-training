@@ -16,6 +16,12 @@
 
     <mvc:annotation-driven />
 
+   <!-- <bean id="doctorValidator" class="com.example.validators.DoctorValidator" />-->
+    <bean class = "org.springframework.context.support.ResourceBundleMessageSource"
+          id = "messageSource">
+        <property name = "basename" value = "message" />
+    </bean>
+
     <!-- Specifying the Resource location to load JS, CSS, Images etc -->
     <!--
         <mvc:resources mapping="/resources/**" location="/resources/" />
