@@ -21,13 +21,13 @@ public class Doctor implements Serializable {
     private int Id;
 
     @NotEmpty
-    @NotNull
     @Column(name="first_name")
+    @Length(min = 5,max = 10)
     private String firstName;
 
     @NotEmpty
-    @NotNull
     @Column(name="last_name")
+    @Length(min = 5,max = 10)
     private String lastName;
 
     @NotEmpty

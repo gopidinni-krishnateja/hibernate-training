@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,6 +40,8 @@ public class DoctorTestController {
     PatientService patientService;
     @Spy
     ModelAndView model;
+    @Mock
+    BindingResult result;
 
     ModelAttribute attribute;
     @InjectMocks
@@ -85,7 +88,7 @@ public class DoctorTestController {
         hospitals.add(hospital);
         hospitals.add(hospital);
         model.addObject("hospitals",hospitals);
-        Assert.assertEquals(doctorController.addDoctor( doctor1, model,request), model);
+        Assert.assertEquals(doctorController.addDoctor( doctor1,result,model), model);
         Assert.assertEquals(200, response.getStatus());
 
     }
@@ -116,7 +119,7 @@ public class DoctorTestController {
         hospitals.add(hospital);
         hospitals.add(hospital);
         model.addObject("hospitals",hospitals);
-        Assert.assertEquals(doctorController.addDoctor( doctor1, model,request), model);
+        Assert.assertEquals(doctorController.addDoctor( doctor1,result,model), model);
         Assert.assertEquals(200, response.getStatus());
 
     }

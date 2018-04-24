@@ -7,7 +7,6 @@ import com.example.modal.PatientAppointment;
 import com.example.service.DoctorService;
 import com.example.service.HospitalService;
 import com.example.service.PatientService;
-import com.example.validators.DoctorValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -31,8 +30,7 @@ public class DoctorController {
     @Autowired
     private HospitalService hospitalService;
 
-    @Autowired
-    DoctorValidator doctorValidator;
+
     @Autowired
     private DoctorService doctorService;
     int hospitalId;
@@ -48,6 +46,7 @@ public class DoctorController {
 
     @RequestMapping(value ="/saveDoctor",method = RequestMethod.POST)
     public  ModelAndView addDoctor(@Valid @ModelAttribute("doctor") Doctor doctor, BindingResult result, ModelAndView model){
+        //doctorValidator.validate(doctor,result);
         if(result.hasErrors()){
             //model.addObject("doctor",new Doctor());
               model.setViewName("addDoctor");
